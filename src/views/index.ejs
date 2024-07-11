@@ -1,0 +1,87 @@
+<head>
+    <title>โคจังเองค่า</title>
+</head>
+<body onload="onLoad()">
+    <audio id="deer">
+        <source src="deer_short.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="pop">
+        <source src="deer_pop.mp3" type="audio/mpeg">
+    </audio>
+    <h1>Chat with Koachan</h1>
+    <form>
+        <fieldset id="chat">
+            <legend>Chat</legend>
+        </fieldset>
+    </form>
+    <textarea id="input"></textarea>
+    <input type="button" value="Send!" onclick="onClick()" id="button_okay">
+</body>
+
+<script>
+    let name = "รุ่นน้องคุง";
+    let conversation = {};
+    const soundEffect = ['pop', "deer"]
+    function onLoad(){
+        name = prompt("กรุณากรอกชื่อตัวเอง", "รุ่นน้องคุง");
+        alert("คุณชื่อ: " + name)
+    }
+
+    async function onClick(){
+        const inputTextArea = document.getElementById("input");
+
+        // If nothing is entered in the chat, ignore it.
+        if(inputTextArea.value.trim() == "" || inputTextArea.value == null) return
+        console.log("button pressed")
+        createNewChat(name, inputTextArea.value);
+        disableChat(true)
+        response = await getResponse(name, inputTextArea.value.trim())
+        inputTextArea.value = "";
+        disableChat(false)
+
+        // choose whether to play pop or deer sound effect
+        const random = Math.floor(Math.random() * 10)
+        const audio = document.getElementById(soundEffect[Math.floor((random+1) / 10)])
+        audio.play();
+        createNewChat("โคจัง", response.message)
+        
+    }
+
+    function createNewChat(sender, text){
+        const filedsetthing = document.getElementById("chat");
+        const newDiv = document.createElement("div");
+        newDiv.className = "Message";
+        const name = document.createElement("p");
+        const message = document.createElement("p");
+        name.innerHTML = "<b>"+sender+"</b>";
+        message.textContent = text;
+        newDiv.appendChild(name)
+        newDiv.appendChild(message)
+        filedsetthing.appendChild(newDiv)
+    }
+
+    function disableChat(status){
+        document.getElementById("input").disabled = status;
+        document.getElementById("button_okay").disabled = status;
+    }
+
+    async function getResponse(name, message){ 
+        var data = {role: "user", message: `${name}:${message}`};
+        var daData = {
+                method : "POST", 
+                 headers: {
+                 'Content-Type': 'application/json'
+              },
+             body : JSON.stringify(data) 
+            }
+        let recieve = {}
+            await fetch("/koachan", daData).then(async response =>{
+                recieve = await response.json();
+                console.log(recieve)
+                
+            })
+            return recieve
+
+        
+    }
+</script>
