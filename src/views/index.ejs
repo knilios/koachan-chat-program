@@ -20,7 +20,7 @@
 
 <script>
     let name = "รุ่นน้องคุง";
-    let conversation = {};
+    let conversation = [];
     const soundEffect = ['pop', "deer"]
     function onLoad(){
         name = prompt("กรุณากรอกชื่อตัวเอง", "รุ่นน้องคุง");
@@ -43,7 +43,7 @@
         const random = Math.floor(Math.random() * 10)
         const audio = document.getElementById(soundEffect[Math.floor((random+1) / 10)])
         audio.play();
-        createNewChat("โคจัง", response.message)
+        createNewChat("โคจัง", response)
         
     }
 
@@ -66,13 +66,15 @@
     }
 
     async function getResponse(name, message){ 
-        var data = {role: "user", message: `${name}:${message}`};
+        var data = {role: "user", content: `${name}:${message}`};
+        conversation = conversation.concat(data)
+        console.log("conversation: ", conversation)
         var daData = {
                 method : "POST", 
                  headers: {
                  'Content-Type': 'application/json'
               },
-             body : JSON.stringify(data) 
+             body : JSON.stringify(conversation) 
             }
         let recieve = {}
             await fetch("/koachan", daData).then(async response =>{
@@ -80,7 +82,22 @@
                 console.log(recieve)
                 
             })
-            return recieve
+            conversation = recieve.body;
+            console.log("post conversation: ", conversation)
+            const splited_reply = recieve.body[recieve.body.length - 1].content.split(/\r?\n/g)
+            console.log(splited_reply)
+            let text = "";
+            for(let i of splited_reply){
+                console.log("text: ", text)
+                console.log("i: ", i)
+                if(i.trim() != '') {
+                    console.log("here")
+                    if(i.match(/(?<=โคจัง:).*/g)) text = text + i.match(/(?<=โคจัง:).*/g)[0].trim()
+                    else text = text + i;
+                }
+            }
+            console.log(text)
+            return text
 
         
     }

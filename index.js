@@ -1,7 +1,8 @@
 const express = require("express");
 const path = require("node:path");
 const { sleep } = require("openai/core.js");
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+const {Chat} = require("./src/controls/ai-chat");
 
 const app = express();
 
@@ -20,8 +21,12 @@ app.get('/', (req, res)=>{
 // Get the response from openAI
 app.post('/koachan', async (req, res) => {
     console.log(req.body)
-    await sleep(1000) // test code
-    res.json({role: "assistance", message: "hello"})
+    const chat = new Chat();
+    const to_return = await chat.gen_speech(req.body)
+    console.log("got back to post: ", to_return)
+    // await sleep(1000) // test code
+    res.json({body: to_return})
+    // res.json({role: "assistance", message: "hello"})
 })
 
 // Listening on port 2000.
