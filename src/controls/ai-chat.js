@@ -22,11 +22,6 @@ class Chat{
     async gen_speech(messages){
         let to_return = messages
         let message = messages[messages.length - 1].content
-        // if(message==""){
-        //     return "say something!!!!!" 
-        // }
-        const date = new Date();
-        date.toLocaleString("th-TH", {timezone: "Indochina/Bangkok"});
         let new_message = [this.context].concat(messages)
         console.log("input into chat: ", new_message)
         const response = await openai.chat.completions.create({
@@ -36,13 +31,6 @@ class Chat{
           });
           const reply = response.choices[0].message.content
           console.log("response: ", reply)
-            // const splited_reply = reply.split(/\r?\n/g)
-            // for(let i of splited_reply){
-            //     if(i != '') {
-            //         if(i.match(/(?<=โคจัง:).*/g)) to_return.push(i.match(/(?<=โคจัง:).*/g)[0].trim())
-            //         else to_return.push(i)
-            //     }
-            // } 
             to_return.push({"role":"assistant","content":reply})
             to_return = this.summary(to_return)
             return to_return

@@ -66,7 +66,9 @@
     }
 
     async function getResponse(name, message){ 
-        var data = {role: "user", content: `${name}:${message}`};
+        const date = new Date();
+        date.toLocaleString("th-TH", {timezone: "Indochina/Bangkok"});
+        var data = {role: "user", content: `(${date})${name}:${message}`};
         conversation = conversation.concat(data)
         console.log("conversation: ", conversation)
         var daData = {
