@@ -1,6 +1,10 @@
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>โคจังเองค่า</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body onload="onLoad()">
     <audio id="deer">
         <source src="deer_short.mp3" type="audio/mpeg">
@@ -8,14 +12,20 @@
     <audio id="pop">
         <source src="deer_pop.mp3" type="audio/mpeg">
     </audio>
-    <h1>Chat with Koachan</h1>
-    <form>
-        <fieldset id="chat">
-            <legend>Chat</legend>
-        </fieldset>
-    </form>
-    <textarea id="input"></textarea>
-    <input type="button" value="Send!" onclick="onClick()" id="button_okay">
+    <div class="container">
+        <h1>โคจัง</h1>
+        <div class="chat-container">
+            <form>
+                <fieldset id="chat">
+                    <legend>Chat</legend>
+                </fieldset>
+            </form>
+        </div>
+        <div class="bottom">
+            <textarea id="input" placeholder="Type your message..."></textarea>
+            <input type="button" value="Send" onclick="onClick()" id="button_okay">
+        </div>
+    </div>
 </body>
 
 <script>
@@ -29,6 +39,7 @@
 
     async function onClick(){
         const inputTextArea = document.getElementById("input");
+        const chat = document.getElementById("chat")
 
         // If nothing is entered in the chat, ignore it.
         if(inputTextArea.value.trim() == "" || inputTextArea.value == null) return
@@ -38,16 +49,20 @@
         response = await getResponse(name, inputTextArea.value.trim())
         inputTextArea.value = "";
         disableChat(false)
+        inputTextArea.focus();    // Focus back to input
+
+        // Scroll chat to bottom
+        chat.scrollTop = chat.scrollHeight;
 
         // choose whether to play pop or deer sound effect
         const random = Math.floor(Math.random() * 10)
         const audio = document.getElementById(soundEffect[Math.floor((random+1) / 10)])
         audio.play();
-        createNewChat("โคจัง", response)
+        createNewChat("โคจัง", response, "final_sequence.png")
         
     }
 
-    function createNewChat(sender, text){
+    function createNewChat(sender, text, image=null){
         const filedsetthing = document.getElementById("chat");
         const newDiv = document.createElement("div");
         newDiv.className = "Message";
@@ -57,6 +72,15 @@
         message.textContent = text;
         newDiv.appendChild(name)
         newDiv.appendChild(message)
+        
+        if(image){
+            // Add an image
+            let img = document.createElement("img")
+            img.src = image
+            img.className = "image"
+            newDiv.appendChild(img)
+        }
+
         filedsetthing.appendChild(newDiv)
     }
 
