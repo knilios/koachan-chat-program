@@ -1,11 +1,15 @@
 const conversation_cut_length = 7
 const apikey = process.env.APIKEY;
+const os = require("os")
+const fs = require("fs")
 //const Datastore = require("nedb")
+const stickers = fs.readdirSync('./public/stickers/').filter(file => file.endsWith('.png'))
 const OpenAI = require("openai")
 const openai = new OpenAI({
   apiKey: apikey, // This is the default and can be omitted
 });
-
+const stickers_processed = stickers.map((x) => {return `[${x.replace(".png", "")}]`})
+console.log("Stickers: ", stickers.toString())
 
 class Chat{
     constructor(){
@@ -16,6 +20,7 @@ class Chat{
         ที่ตั้งชมรม: ชั้น 5 อาคารเทพศาสตร์สถิตย์ มหาวิทยาลัยเกษตรศาสตร์
         Facebook: KU Japanese Pop Culture
         instagram: ku.jpc_club
+        โคจังสามารถใช้สติกเกอร์ได้โดยการพิมพ์ข้อความเฉพาะ ดังนี้ ${stickers_processed.toString()} ไว้ท้ายสุด
         `}
         this.model = "gpt-4o";
     }

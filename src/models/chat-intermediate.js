@@ -4,8 +4,8 @@
 
 const apikey = process.env.APIKEY
 //const Datastore = require("nedb")
-const {Chat} = require("../controls/ai-chat")
-const OpenAiHandler = require("../models/openai_handler")
+const {Chat} = require("./ai-chat")
+const OpenAiHandler = require("./openai_handler")
 
 class Intermediate{
     constructor(game, natto=new Chat(game)){

@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("node:path");
 const { sleep } = require("openai/core.js");
 var bodyParser = require('body-parser');
-const {Chat} = require("./src/controls/ai-chat");
+const {Chat} = require("./src/models/ai-chat");
 
 const app = express();
 

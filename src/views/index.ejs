@@ -58,7 +58,11 @@
         const random = Math.floor(Math.random() * 10)
         const audio = document.getElementById(soundEffect[Math.floor((random+1) / 10)])
         audio.play();
-        createNewChat("โคจัง", response, "final_sequence.png")
+        const image_name = response.match(/(?<=\[).+(?=\])/g)
+        const processed_conversation = response.replace(/\[.+\]/g, "")
+        if(!image_name) return createNewChat("โคจัง", response)
+        console.log("image: ", `stickers/${image_name[0]}.png`)
+        createNewChat("โคจัง", processed_conversation, `stickers/${image_name[0]}.png`)
         
     }
 
