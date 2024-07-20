@@ -15,4 +15,5 @@ Yes
 ```shell
 npm start
 ```
-
+## How can I add more stickers?
+You can simply add stickers directly into `public/stickers` folder. The sticker must be a png and the file name must be name according to the sticker.
