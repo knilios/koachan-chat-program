@@ -3,6 +3,9 @@ const path = require("node:path");
 const { sleep } = require("openai/core.js");
 var bodyParser = require('body-parser');
 const {Chat} = require("./src/models/ai-chat");
+if (process.env.NODE_ENV !== 'production') {
+	require("dotenv").config()
+  }
 
 const app = express();
 
