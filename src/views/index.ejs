@@ -46,13 +46,15 @@
         console.log("button pressed")
         createNewChat(name, inputTextArea.value);
         disableChat(true)
+        // Scroll chat to bottom
+        console.log("scrollheight one: ", chat.scrollHeight)
+        chat.scrollTo(0, chat.scrollHeight);
+
         response = await getResponse(name, inputTextArea.value.trim())
         inputTextArea.value = "";
         disableChat(false)
-        inputTextArea.focus();    // Focus back to input
+        // inputTextArea.focus();    // Focus back to input
 
-        // Scroll chat to bottom
-        chat.scrollTop = chat.scrollHeight;
 
         // choose whether to play pop or deer sound effect
         const random = Math.floor(Math.random() * 10)
@@ -60,9 +62,15 @@
         audio.play();
         const image_name = response.match(/(?<=\[).+(?=\])/g)
         const processed_conversation = response.replace(/\[.+\]/g, "")
-        if(!image_name) return createNewChat("โคจัง", response)
-        console.log("image: ", `stickers/${image_name[0]}.png`)
-        createNewChat("โคจัง", processed_conversation, `stickers/${image_name[0]}.png`)
+        if(!image_name) createNewChat("โคจัง", response)
+        else{
+            console.log("image: ", `stickers/${image_name[0]}.png`)
+            createNewChat("โคจัง", processed_conversation, `stickers/${image_name[0]}.png`)
+            console.log("chat height: ", chat.scrollHeight)
+        }
+
+        // Scroll chat to bottom
+        chat.scrollTo(0, chat.scrollHeight);
         
     }
 
