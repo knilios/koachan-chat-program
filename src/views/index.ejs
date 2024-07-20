@@ -45,15 +45,20 @@
         if(inputTextArea.value.trim() == "" || inputTextArea.value == null) return
         console.log("button pressed")
         createNewChat(name, inputTextArea.value);
+
+        // Loading
         disableChat(true)
         // Scroll chat to bottom
         console.log("scrollheight one: ", chat.scrollHeight)
+        showTypingLoadMessage()
         chat.scrollTo(0, chat.scrollHeight);
 
         response = await getResponse(name, inputTextArea.value.trim())
+
+        // Loading finished
         inputTextArea.value = "";
         disableChat(false)
-        // inputTextArea.focus();    // Focus back to input
+        removeTypingLoadMessage()
 
 
         // choose whether to play pop or deer sound effect
@@ -100,6 +105,28 @@
         document.getElementById("input").disabled = status;
         document.getElementById("button_okay").disabled = status;
     }
+
+    function showTypingLoadMessage(){
+        const filedsetthing = document.getElementById("chat");
+        const newDiv = document.createElement("div");
+        newDiv.className = "Message";
+        newDiv.id = "loading_message";
+        const name = document.createElement("p");
+        const message = document.createElement("p");
+        message.id = "loading_dot";
+        name.innerHTML = "<b>"+"โคจัง"+"</b>";
+        message.textContent = ".";
+        newDiv.appendChild(name);
+        newDiv.appendChild(message);
+        filedsetthing.appendChild(newDiv);
+    }
+
+    function removeTypingLoadMessage(){
+        const chat = document.getElementById("loading_message");
+        chat.remove()
+    }
+
+
 
     async function getResponse(name, message){ 
         const date = new Date();

@@ -97,3 +97,17 @@ h1 {
     max-width: fit-content;
     max-height: auto;
 }
+
+#loading_dot {
+    animation: left-to-right 1s ease-in infinite alternate;
+    font-size: 24px;
+}
+
+@keyframes left-to-right {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(20%);
+    }
+}
