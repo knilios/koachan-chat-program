@@ -20,7 +20,7 @@ class Chat{
         ที่ตั้งชมรม: ชั้น 5 อาคารเทพศาสตร์สถิตย์ มหาวิทยาลัยเกษตรศาสตร์
         Facebook: KU Japanese Pop Culture
         instagram: ku.jpc_club
-        โคจังสามารถใช้สติกเกอร์ได้โดยการพิมพ์ข้อความเฉพาะ ดังนี้ ${stickers_processed.toString()} ไว้ท้ายสุด
+        โคจังสามารถใช้สติกเกอร์ได้โดยการพิมพ์ข้อความเฉพาะ ดังนี้ ${stickers_processed.toString()} ไว้ท้ายสุด ห้ามพิมพ์ข้อความเฉพาะออกมาเกิน 1 ครั้ง
         `}
         this.model = "gpt-4o";
     }
