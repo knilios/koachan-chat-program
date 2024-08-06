@@ -10,7 +10,7 @@ No, not yet.
 Yes
 
 ## How to use it
-1. Add .env containing `TOKEN` variable containing OpenAI's bot token.
+1. Add .env containing `APIKEY` variable containing OpenAI's bot api-key.
 2. run
 ```shell
 npm start
