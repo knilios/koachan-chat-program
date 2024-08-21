@@ -23,10 +23,8 @@ app.get('/', (req, res)=>{
 
 // Get the response from openAI
 app.post('/koachan', async (req, res) => {
-    console.log(req.body)
     const chat = new Chat();
     const to_return = await chat.gen_speech(req.body)
-    console.log("got back to post: ", to_return)
     // await sleep(1000) // test code
     res.json({body: to_return})
     // res.json({role: "assistance", message: "hello"})
